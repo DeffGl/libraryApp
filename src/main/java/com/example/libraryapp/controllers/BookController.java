@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.UnexpectedException;
 import java.util.List;
 
 @RestController
@@ -23,17 +22,17 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> getAllBooks() throws UnexpectedException {
+    public ResponseEntity<List<BookDto>> getAllBooks() throws RuntimeException {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) throws BookNotFoundException, UnexpectedException {
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) throws BookNotFoundException, RuntimeException {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) throws BookNotCreatedException, UnexpectedException {
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) throws BookNotCreatedException {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(bookDto));
     }
 

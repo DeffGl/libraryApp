@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.rmi.UnexpectedException;
 import java.util.List;
 
 @Service
@@ -28,22 +27,22 @@ public class BookServiceImpl implements BookService {
     private final LocalizationService localizationService;
 
     @Override
-    public List<BookDto> getAllBooks() throws UnexpectedException {
+    public List<BookDto> getAllBooks() throws RuntimeException {
         try {
             log.debug("Receive all books");
             return bookMapper.toDtoList(bookRepository.findAll());
         } catch (Exception e){
-            throw new UnexpectedException(localizationService.getMessage("error.book.unexpectedException"));
+            throw new RuntimeException(localizationService.getMessage("error.book.runtimeException"));
         }
     }
 
     @Override
-    public BookDto getBookById(Long id) throws BookNotFoundException, UnexpectedException {
+    public BookDto getBookById(Long id) throws BookNotFoundException, RuntimeException {
         Book book = findBookById(id);
         try {
             return bookMapper.toDto(book);
         } catch (Exception e){
-            throw new UnexpectedException(localizationService.getMessage("error.book.unexpectedException"));
+            throw new RuntimeException(localizationService.getMessage("error.book.runtimeException"));
         }
     }
 

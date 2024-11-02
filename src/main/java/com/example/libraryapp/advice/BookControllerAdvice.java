@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.rmi.UnexpectedException;
-
 import static com.example.libraryapp.dtos.ErrorResponseDto.createErrorResponseDto;
 
 @RestControllerAdvice(assignableTypes = BookController.class)
@@ -26,54 +24,55 @@ public class BookControllerAdvice {
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleBookNotFoundException(BookNotFoundException e, HttpServletRequest request) {
         log.error("The book could not be found", e);
-        ErrorResponseDto response = createErrorResponseDto(
-                HttpStatus.NOT_FOUND,
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(createErrorResponseDto(
+                        HttpStatus.NOT_FOUND,
+                        e.getMessage(),
+                        request.getRequestURI()
+                ));
     }
+
     @ExceptionHandler(BookNotCreatedException.class)
     public ResponseEntity<ErrorResponseDto> handleBookNotCreatedException(BookNotCreatedException e, HttpServletRequest request) {
         log.error("The book could not be created", e);
-        ErrorResponseDto response = createErrorResponseDto(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createErrorResponseDto(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        e.getMessage(),
+                        request.getRequestURI()
+                ));
     }
 
     @ExceptionHandler(BookNotDeletedException.class)
     public ResponseEntity<ErrorResponseDto> handleBookNotDeletedException(BookNotDeletedException e, HttpServletRequest request) {
         log.error("The book could not be deleted", e);
-        ErrorResponseDto response = createErrorResponseDto(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createErrorResponseDto(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        e.getMessage(),
+                        request.getRequestURI()
+                ));
     }
 
     @ExceptionHandler(BookNotUpdatedException.class)
     public ResponseEntity<ErrorResponseDto> handleBookNotUpdatedException(BookNotUpdatedException e, HttpServletRequest request) {
         log.error("The book could not be updated", e);
-        ErrorResponseDto response = createErrorResponseDto(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createErrorResponseDto(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        e.getMessage(),
+                        request.getRequestURI()
+                ));
     }
 
-    @ExceptionHandler(UnexpectedException.class)
-    public ResponseEntity<ErrorResponseDto> handleUnexpectedException(UnexpectedException e, HttpServletRequest request) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         log.error("An unexpected exception has occurred", e);
-        ErrorResponseDto response = createErrorResponseDto(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(createErrorResponseDto(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        e.getMessage(),
+                        request.getRequestURI()
+                ));
     }
 }
