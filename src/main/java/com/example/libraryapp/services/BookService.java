@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface BookService {
     List<BookDto> getAllBooks() throws RuntimeException;
+
     BookDto getBookById(Long id) throws BookNotFoundException, RuntimeException;
+
     BookDto createBook(BookDto bookDto) throws BookNotCreatedException;
+
     BookDto updateBook(Long id, BookDto bookDto) throws BookNotUpdatedException, BookNotFoundException;
+
     void deleteBook(Long id) throws BookNotFoundException, BookNotDeletedException;
 }

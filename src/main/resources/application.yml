@@ -9,7 +9,6 @@ spring:
     port: 5672
     username: user
     password: password
-
   datasource:
     url: jdbc:postgresql://localhost:5432/library
     username: 'bob'
