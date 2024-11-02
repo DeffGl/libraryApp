@@ -12,6 +12,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 @Slf4j
 public class LocalizationServiceImpl implements LocalizationService {
+    private final static String ERROR_MESSAGE = "The localized message could not be received by code: {}";
 
     private final MessageSource messageSource;
     @Override
@@ -19,7 +20,17 @@ public class LocalizationServiceImpl implements LocalizationService {
         try{
             return messageSource.getMessage(code, null, Locale.getDefault());
         } catch (Exception e){
-            log.error("The localized message could not be received by code: {}", code);
+            log.error(ERROR_MESSAGE, code);
+        }
+        return "";
+    }
+
+    @Override
+    public String getMessage(String code, Object... args) {
+        try {
+            return messageSource.getMessage(code, args, Locale.getDefault());
+        } catch (Exception e) {
+            log.error(ERROR_MESSAGE, code);
         }
         return "";
     }

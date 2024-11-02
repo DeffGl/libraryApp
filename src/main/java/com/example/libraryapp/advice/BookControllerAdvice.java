@@ -1,11 +1,12 @@
 package com.example.libraryapp.advice;
 
 import com.example.libraryapp.controllers.BookController;
+import com.example.libraryapp.dtos.ErrorResponseDto;
 import com.example.libraryapp.exceptions.book.BookNotCreatedException;
 import com.example.libraryapp.exceptions.book.BookNotDeletedException;
 import com.example.libraryapp.exceptions.book.BookNotFoundException;
 import com.example.libraryapp.exceptions.book.BookNotUpdatedException;
-import com.example.libraryapp.services.LocalizationService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,39 +16,64 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.rmi.UnexpectedException;
 
+import static com.example.libraryapp.dtos.ErrorResponseDto.createErrorResponseDto;
+
 @RestControllerAdvice(assignableTypes = BookController.class)
 @Slf4j
 @RequiredArgsConstructor
 public class BookControllerAdvice {
 
-    private final LocalizationService localizationService;
-
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException e) {
+    public ResponseEntity<ErrorResponseDto> handleBookNotFoundException(BookNotFoundException e, HttpServletRequest request) {
         log.error("The book could not be found", e);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(localizationService.getMessage(e.getMessage()));
+        ErrorResponseDto response = createErrorResponseDto(
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
     @ExceptionHandler(BookNotCreatedException.class)
-    public ResponseEntity<String> handleBookNotCreatedException(BookNotCreatedException e) {
+    public ResponseEntity<ErrorResponseDto> handleBookNotCreatedException(BookNotCreatedException e, HttpServletRequest request) {
         log.error("The book could not be created", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(localizationService.getMessage(e.getMessage()));
+        ErrorResponseDto response = createErrorResponseDto(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(BookNotDeletedException.class)
-    public ResponseEntity<String> handleBookNotDeletedException(BookNotDeletedException e) {
+    public ResponseEntity<ErrorResponseDto> handleBookNotDeletedException(BookNotDeletedException e, HttpServletRequest request) {
         log.error("The book could not be deleted", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(localizationService.getMessage(e.getMessage()));
+        ErrorResponseDto response = createErrorResponseDto(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(BookNotUpdatedException.class)
-    public ResponseEntity<String> handleBookNotUpdatedException(BookNotUpdatedException e) {
+    public ResponseEntity<ErrorResponseDto> handleBookNotUpdatedException(BookNotUpdatedException e, HttpServletRequest request) {
         log.error("The book could not be updated", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(localizationService.getMessage(e.getMessage()));
+        ErrorResponseDto response = createErrorResponseDto(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(UnexpectedException.class)
-    public ResponseEntity<String> handleUnexpectedException(UnexpectedException e) {
+    public ResponseEntity<ErrorResponseDto> handleUnexpectedException(UnexpectedException e, HttpServletRequest request) {
         log.error("An unexpected exception has occurred", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(localizationService.getMessage(e.getMessage()));
+        ErrorResponseDto response = createErrorResponseDto(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

@@ -9,6 +9,7 @@ import com.example.libraryapp.exceptions.book.BookNotUpdatedException;
 import com.example.libraryapp.mappers.BookMapper;
 import com.example.libraryapp.repositories.BookRepository;
 import com.example.libraryapp.services.BookService;
+import com.example.libraryapp.services.LocalizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final LocalizationService localizationService;
 
     @Override
     public List<BookDto> getAllBooks() throws UnexpectedException {
@@ -31,18 +33,17 @@ public class BookServiceImpl implements BookService {
             log.debug("Receive all books");
             return bookMapper.toDtoList(bookRepository.findAll());
         } catch (Exception e){
-            throw new UnexpectedException("error.book.notFoundAll");
+            throw new UnexpectedException(localizationService.getMessage("error.book.unexpectedException"));
         }
     }
 
     @Override
     public BookDto getBookById(Long id) throws BookNotFoundException, UnexpectedException {
+        Book book = findBookById(id);
         try {
-            return bookMapper.toDto(findBookById(id));
-        } catch (BookNotFoundException e){
-            throw new BookNotFoundException("error.book.notFound");
+            return bookMapper.toDto(book);
         } catch (Exception e){
-            throw new UnexpectedException("error.book.unexpectedException");
+            throw new UnexpectedException(localizationService.getMessage("error.book.unexpectedException"));
         }
     }
 
@@ -53,7 +54,7 @@ public class BookServiceImpl implements BookService {
             log.debug("Create book by bookDto: {}", bookDto);
             return bookMapper.toDto(bookRepository.save(bookMapper.toEntity(bookDto)));
         } catch (Exception e) {
-            throw new BookNotCreatedException("error.book.notCreated");
+            throw new BookNotCreatedException(localizationService.getMessage("error.book.notCreated"));
         }
     }
 
@@ -66,7 +67,7 @@ public class BookServiceImpl implements BookService {
             bookMapper.updateBookFromDto(bookDto, book);
             return bookMapper.toDto(bookRepository.save(book));
         } catch (Exception e) {
-            throw new BookNotUpdatedException("error.book.notUpdated");
+            throw new BookNotUpdatedException(localizationService.getMessage("error.book.notUpdated", id));
         }
     }
 
@@ -78,12 +79,12 @@ public class BookServiceImpl implements BookService {
             log.debug("Delete book with id: {}", id);
             bookRepository.delete(book);
         } catch (Exception e) {
-            throw new BookNotDeletedException("error.book.notDeleted");
+            throw new BookNotDeletedException(localizationService.getMessage("error.book.notDeleted", id));
         }
     }
 
     private Book findBookById(Long id) throws BookNotFoundException {
         log.debug("Receive book by id: {}", id);
-        return bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book with id: " + id + " not found"));
+        return bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException(localizationService.getMessage("error.book.notFound", id)));
     }
 }
