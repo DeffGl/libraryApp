@@ -1,5 +1,6 @@
 package com.example.libraryapp.messages.listeners.impl;
 
+import com.example.libraryapp.constants.RabbitMQQueueConstants;
 import com.example.libraryapp.exceptions.book.BookNotCreatedException;
 import com.example.libraryapp.exceptions.book.BookNotDeletedException;
 import com.example.libraryapp.exceptions.book.BookNotFoundException;
@@ -19,7 +20,7 @@ public class BookNotificationListenerImpl implements BookNotificationListener {
     private final BookEventHandler bookEventHandler;
     private final RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = "book_create_queue")
+    @RabbitListener(queues = RabbitMQQueueConstants.BOOK_CREATE_QUEUE)
     @Override
     public void handleBookCreation(BookEventDto bookEventDto) {
         try {
@@ -29,7 +30,7 @@ public class BookNotificationListenerImpl implements BookNotificationListener {
         }
     }
 
-    @RabbitListener(queues = "book_update_queue")
+    @RabbitListener(queues = RabbitMQQueueConstants.BOOK_UPDATE_QUEUE)
     @Override
     public void handleBookUpdate(BookEventDto bookEventDto) {
         try {
@@ -39,7 +40,7 @@ public class BookNotificationListenerImpl implements BookNotificationListener {
         }
     }
 
-    @RabbitListener(queues = "book_delete_queue")
+    @RabbitListener(queues = RabbitMQQueueConstants.BOOK_DELETE_QUEUE)
     @Override
     public void handleBookDeletion(BookEventDto bookEventDto) {
         try {
@@ -50,6 +51,6 @@ public class BookNotificationListenerImpl implements BookNotificationListener {
     }
 
     private void sendErrorToQueue(String errorMessage) {
-        rabbitTemplate.convertAndSend("error_queue", errorMessage);
+        rabbitTemplate.convertAndSend(RabbitMQQueueConstants.ERROR_QUEUE, errorMessage);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.libraryapp.messages.listeners.impl;
 
+import com.example.libraryapp.constants.RabbitMQQueueConstants;
 import com.example.libraryapp.messages.listeners.ErrorListener;
 import com.example.libraryapp.services.LocalizationService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class ErrorListenerImpl implements ErrorListener {
 
     private final LocalizationService localizationService;
 
-    @RabbitListener(queues = "error_queue")
+    @RabbitListener(queues = RabbitMQQueueConstants.ERROR_QUEUE)
     @Override
     public void handleError(String errorMessage) {
         log.error(localizationService.getMessage("error.receive.message", errorMessage));

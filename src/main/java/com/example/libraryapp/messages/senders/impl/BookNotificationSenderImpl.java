@@ -1,5 +1,6 @@
 package com.example.libraryapp.messages.senders.impl;
 
+import com.example.libraryapp.constants.RabbitMQQueueConstants;
 import com.example.libraryapp.dtos.BookDto;
 import com.example.libraryapp.messages.events.BookEventDto;
 import com.example.libraryapp.messages.senders.BookNotificationSender;
@@ -16,19 +17,19 @@ public class BookNotificationSenderImpl implements BookNotificationSender {
     @Override
     public void sendCreateNotification(BookDto bookDto) {
         BookEventDto bookEventDto = new BookEventDto(null, bookDto);
-        sendNotification("book_create_queue", bookEventDto);
+        sendNotification(RabbitMQQueueConstants.BOOK_CREATE_QUEUE, bookEventDto);
     }
 
     @Override
     public void sendUpdateNotification(Long id, BookDto bookDto) {
         BookEventDto bookEventDto = new BookEventDto(id, bookDto);
-        sendNotification("book_update_queue", bookEventDto);
+        sendNotification(RabbitMQQueueConstants.BOOK_UPDATE_QUEUE, bookEventDto);
     }
 
     @Override
     public void sendDeleteNotification(Long id) {
         BookEventDto bookEventDto = new BookEventDto(id, null);
-        sendNotification("book_delete_queue", bookEventDto);
+        sendNotification(RabbitMQQueueConstants.BOOK_DELETE_QUEUE, bookEventDto);
     }
 
     private void sendNotification(String routingKey, BookEventDto bookEventDto){
