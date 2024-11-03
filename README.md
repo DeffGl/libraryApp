@@ -116,6 +116,16 @@ docker-compose --version
 - http://localhost:5050 - pgAdmin
 - http://localhost:15672 - RabbitMQ Management
 
+Логины и пароли:
+- postgres:
+  - username: ```bob```
+  - password: ```password```
+- rabbitmq:
+  - username: ```user```
+  - password: ```password```
+- pgAdmin
+  - password: ```admin```
+
  В _"pgAdmin"_ при добавлении сервера, на вкладке _"Connection"_ в поле _"Host name/address"_ необходимо указать _"postgres"_. Порт стандартный: ```5432```. 
  
 Дополнительную информацию о подключениях (логины, пароли) можно посмотреть в файлах _"application.yml"_ или _"docker-compose.yml"_.
