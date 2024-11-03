@@ -113,3 +113,10 @@ docker-compose --version
 ```bash
 ./cleanup.sh
 ```
+
+### Примечание:
+Доступные адреса на локальном компьютере:
+- http://localhost:5050 - pgAdmin
+- http://localhost:15672 - RabbitMQ Management
+
+ В _"pgAdmin"_ при добавлении сервера на вкладе _"Connection"_ в поле _"Host name/address"_ необходимо указать _"postgres"_.
