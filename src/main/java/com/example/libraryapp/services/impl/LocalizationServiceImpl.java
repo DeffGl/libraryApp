@@ -20,7 +20,7 @@ public class LocalizationServiceImpl implements LocalizationService {
         try{
             return messageSource.getMessage(code, null, Locale.getDefault());
         } catch (Exception e){
-            log.error(ERROR_MESSAGE, code);
+            log.error(ERROR_MESSAGE, code, e);
         }
         return "";
     }
@@ -30,7 +30,7 @@ public class LocalizationServiceImpl implements LocalizationService {
         try {
             return messageSource.getMessage(code, args, Locale.getDefault());
         } catch (Exception e) {
-            log.error(ERROR_MESSAGE, code);
+            log.error(ERROR_MESSAGE, code, e);
         }
         return "";
     }

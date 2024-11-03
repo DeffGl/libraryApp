@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+import java.util.Locale;
+
 @Configuration
 public class LocalizationConfig {
     @Bean
@@ -13,5 +15,12 @@ public class LocalizationConfig {
         messageSource.setBasename("classpath:messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
+    }
+
+    @Bean
+    public Locale defaultLocale() {
+        Locale defaultLocale = Locale.forLanguageTag("ru");
+        Locale.setDefault(defaultLocale);
+        return defaultLocale;
     }
 }
