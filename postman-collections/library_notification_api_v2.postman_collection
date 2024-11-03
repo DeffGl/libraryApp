@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "9e3eba79-d0ae-4d9d-8c43-746544404672",
+		"name": "library notification",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38662344"
+	},
+	"item": [
+		{
+			"name": "create_book (notification)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Война и мир\",\r\n  \"author\": \"Лев Толстой\",\r\n  \"publishedDate\": \"1869-01-01T00:00:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v2/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_book (notification)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Война и\",\r\n  \"author\": \"Лев Толстой\",\r\n  \"publishedDate\": \"1870-01-01T00:00:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v2/books/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"books",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_book (notification)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v2/books/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"books",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
